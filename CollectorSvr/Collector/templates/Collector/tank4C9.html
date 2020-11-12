@@ -1,0 +1,70 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>Tank 4C9</title>
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <style type="text/css">
+        .bg {
+            background:url(../../static/img/tank4C9-1.png) no-repeat left;
+            background-size:contain;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="container-fluid bg" style="height:455px;background:url(../../static/img/tank4C9-1.png) no-repeat left;background-size:contain;">
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-sm"></div>
+            <div class="col-sm"><strong class="text-warning" id="OverheadFlow">100</strong><strong> mm/sΛ2</strong></div>
+            <div class="col-sm"></div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-sm"></div>
+            <div class="col-sm-2"><strong class="text-success" id="Power">200</strong><strong> kWh</strong></div>
+            <div class="col-sm-9"></div>
+        </div>
+
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+        <div class="row">&nbsp;</div>
+
+        <div class="row">
+            <div class="col-sm-5"></div>
+            <div class="col-sm-2"><strong class="text-danger" id="ButtomsFlow">300</strong><strong>  mm/sΛ2</strong></div>
+            <div class="col-sm-5"></div>
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            setInterval("getData()", 1000);
+        });
+        function getData() {
+            $.ajax({
+                url: "/getCollectorData", success: function (result) {
+                    data = JSON.parse(result);
+                    tank4C9 = data.DeviceList[0]
+                    $("#OverheadFlow").html(tank4C9.OverheadFlow);
+                    $("#ButtomsFlow").html(tank4C9.ButtomsFlow);
+                    $("#Power").html(tank4C9.Power);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
