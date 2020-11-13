@@ -3,6 +3,8 @@ from django.http import HttpRequest,HttpResponse
 import random
 import json
 import OpenOPC
+import pywintypes
+pywintypes.datetime = pywintypes.TimeType
 
 # Create your views here.
 def tank4C9(request):
@@ -20,7 +22,7 @@ def getCollectorData(request):
             'Power':0,#功率
         }
     opc = OpenOPC.client()
-    opc.connect('OPCJ.SampleServer.1')
+    opc.connect('Matrikon.OPC.Simulation.1')
     tank4C9['OverheadFlow'] = opc['Random.Int1']
     tank4C9['ButtomsFlow'] = opc['Random.Int2']
     tank4C9['Power'] = opc['Random.Int3']
