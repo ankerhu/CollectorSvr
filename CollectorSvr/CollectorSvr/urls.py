@@ -26,5 +26,6 @@ urlpatterns = [
     #path('admin/', admin.site.urls)
     path('tank4C9/',views.tank4C9),
     path('getTank4C9Data/', views.getTank4C9Data),
-    path('getCollectorData',views.getCollectorData),
+    path('getCollectorData/',views.getCollectorData),
+    path('pushCollectorData/',views.pushCollectorData),
 ]

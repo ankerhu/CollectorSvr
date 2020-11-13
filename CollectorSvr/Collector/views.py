@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpRequest,HttpResponse
 import random
-import json
+import json,time
 import OpenOPC
 import pywintypes
 pywintypes.datetime = pywintypes.TimeType
+from dwebsocket.decorators import accept_websocket
 
 # Create your views here.
 def tank4C9(request):
@@ -21,19 +22,54 @@ def getCollectorData(request):
             'ButtomsFlow':0,#低流量
             'Power':0,#功率
         }
-    opc = OpenOPC.client()
-    opc.connect('Matrikon.OPC.Simulation.1')
-    tank4C9['OverheadFlow'] = opc['Random.Int1']
-    tank4C9['ButtomsFlow'] = opc['Random.Int2']
-    tank4C9['Power'] = opc['Random.Int3']
-    opc.close()
+    
     Collector={
         'CollectorId':1,
         'CollectorName':'1#采集器',
         'Status':0,
         'DeviceList':[tank4C9],
         }
+    opc = OpenOPC.client()
+    opc.connect('OPCJ.SampleServer.1')
+    tank4C9['OverheadFlow'] = opc['Random.Int1']
+    tank4C9['ButtomsFlow'] = opc['Random.Int2']
+    tank4C9['Power'] = opc['Random.Int3']
+    opc.close()
     return HttpResponse( json.dumps(Collector) )
+
+
+@accept_websocket
+def pushCollectorData(request):
+    tank4C9 = {
+            'DeviceID':1,
+            'DeviceName':'1#反应罐',
+            'Status' : 0,#设备运行状态
+            'OverheadFlow':0,#顶流量
+            'ButtomsFlow':0,#低流量
+            'Power':0,#功率
+        }
+    
+    Collector={
+        'CollectorId':1,
+        'CollectorName':'1#采集器',
+        'Status':0,
+        'DeviceList':[tank4C9],
+        }
+
+    if request.is_websocket():
+        try:
+            while True:
+                opc = OpenOPC.client()
+                opc.connect('OPCJ.SampleServer.1')
+                tank4C9['OverheadFlow'] = opc['Random.Int1']
+                tank4C9['ButtomsFlow'] = opc['Random.Int2']
+                tank4C9['Power'] = opc['Random.Int3']
+                opc.close()
+                request.websocket.send(json.dumps({"rows":[Collector],'total':1}))
+                time.sleep(2)
+        finally:
+            #client.disconnect()
+            request.websocket.close()
 
 def getTank4C9Data(request):
     tank4C9 = {

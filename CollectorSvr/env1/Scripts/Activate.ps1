@@ -27,7 +27,7 @@ function global:deactivate ([switch]$NonDestructive) {
 
 deactivate -nondestructive
 
-$env:VIRTUAL_ENV="D:\coding\CollectorSvr\ankerhu\CollectorSvr\CollectorSvr\env1"
+$env:VIRTUAL_ENV="F:\who\coding\opc\Django\CollectorSvr\CollectorSvr\env1"
 
 if (! $env:VIRTUAL_ENV_DISABLE_PROMPT) {
     # Set the prompt to include the env name

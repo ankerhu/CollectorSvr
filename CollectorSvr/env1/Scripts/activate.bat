@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=D:\coding\CollectorSvr\ankerhu\CollectorSvr\CollectorSvr\env1
+set VIRTUAL_ENV=F:\who\coding\opc\Django\CollectorSvr\CollectorSvr\env1
 
 if not defined PROMPT set PROMPT=$P$G
 

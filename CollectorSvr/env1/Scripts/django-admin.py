@@ -1,4 +1,4 @@
-#!D:\coding\CollectorSvr\ankerhu\CollectorSvr\CollectorSvr\env1\Scripts\python.exe
+#!F:\who\coding\opc\Django\CollectorSvr\CollectorSvr\env1\Scripts\python.exe
 from django.core import management
 
 if __name__ == "__main__":
